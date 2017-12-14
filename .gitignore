@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Editor copies
+**/*~
+
+# cmake stuff
+**/build

@@ -1,6 +1,7 @@
 # usertool
 Usertool allows for user management on BSD or Linux systems and generates Ansible-usable files
 ## How to build
+*usertool* requires a `c++11` able compiler and [yaml-cpp](https://github.com/jbeder/yaml-cpp) version >= 5.2 (as long as cmake can find *yaml-cpp*)
 ```bash
 cd usertool
 mkdir build

@@ -3,31 +3,35 @@ cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 project(usertool CXX)
 
 set(SRCDIR src)
+set(INCDIR include)
 
 set(usertoolSRC
     ${SRCDIR}/bsd2linux.cc
     ${SRCDIR}/daemon.cc
     ${SRCDIR}/database.cc
-    ${SRCDIR}/database.h
     ${SRCDIR}/filtersystem.cc
     ${SRCDIR}/flawsearch.cc
     ${SRCDIR}/group.cc
-    ${SRCDIR}/group.h
     ${SRCDIR}/linux2bsd.cc
     ${SRCDIR}/passwordupdate.cc
     ${SRCDIR}/removeusers.cc
     ${SRCDIR}/string_methods.cc
-    ${SRCDIR}/string_methods.h
     ${SRCDIR}/system.cc
-    ${SRCDIR}/system.h
     ${SRCDIR}/system2yaml.cc
     ${SRCDIR}/systemupdate.cc
     ${SRCDIR}/updatedatabase.cc
     ${SRCDIR}/user.cc
-    ${SRCDIR}/user.h
-    ${SRCDIR}/usertool.cc
-    ${SRCDIR}/usertool.h)
+    ${SRCDIR}/usertool.cc)
 
+
+set(usertoolINCLUDE
+    ${INCDIR}/database.h
+    ${INCDIR}/group.h
+    ${INCDIR}/string_methods.h
+    ${INCDIR}/system.h
+    ${INCDIR}/user.h
+    ${INCDIR}/usertool.h)
+    
 add_executable(usertool ${usertoolSRC})
 
 set(cmake_cxx_extensions off)
@@ -43,6 +47,6 @@ find_package(yaml-cpp 0.5.2 REQUIRED)
 #    message(STATUS "${_variableName}=${${_variableName}}")
 #endforeach()
 
-include_directories(${YAML_CPP_INCLUDE_DIR})
+include_directories(${YAML_CPP_INCLUDE_DIR} ${INCDIR})
 target_link_libraries(usertool ${LIBS} ${YAML_CPP_LIBRARIES})
 target_compile_features(usertool PRIVATE ${needed_features})

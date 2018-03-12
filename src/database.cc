@@ -46,10 +46,7 @@ void readDatabase(std::multiset<Group, GroupOrder>* systemGroups)
         assert(users["cluster_users"].Type() == YAML::NodeType::Map);
         dbUsers = new std::multiset<User, UserOrder>();
         for(YAML::const_iterator it=users["cluster_users"].begin(); it!=users["cluster_users"].end(); ++it)
-            dbUsers->insert(User(it, dbGroups));
-            
-        for(auto dbUser: *dbUsers)
-            dbUser.checkUnknownGroups(systemGroups);
+            dbUsers->insert(User(it, dbGroups, systemGroups));
     }
 }
 

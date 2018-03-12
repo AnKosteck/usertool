@@ -29,7 +29,7 @@ void flawSearch(std::string& parameter)
 
     if(users != NULL && groups != NULL) {
         //Open database files
-        readDatabase();
+        readDatabase(groups);
         multiset<User, UserOrder>* dbUsers = getDatabaseUsers();
         multiset<Group, GroupOrder>* dbGroups = getDatabaseGroups();
         int statistic[8] = {};

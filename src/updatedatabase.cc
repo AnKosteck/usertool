@@ -14,7 +14,7 @@ void updateDatabase(string& parameter)
     multiset<Group, GroupOrder>* groups = getGroups();
 
     if(users != NULL && groups != NULL) {
-        readDatabase();
+        readDatabase(getGroups());
         multiset<User, UserOrder>* usersInDatabase = getDatabaseUsers();
         multiset<Group, GroupOrder>* groupsInDatabase = getDatabaseGroups();
         if(usersInDatabase != NULL && groupsInDatabase != NULL) {

@@ -18,7 +18,7 @@ void systemUpdate(string& parameter)
 
     if(users != NULL && groups != NULL) {
         //Open database files
-        readDatabase();
+        readDatabase(getGroups());
         multiset<User, UserOrder>* dbUsers = getDatabaseUsers();
         multiset<Group, GroupOrder>* dbGroups = getDatabaseGroups();
         int usersAdded = 0, usersModified = 0, groupsAdded = 0, groupsModified = 0;

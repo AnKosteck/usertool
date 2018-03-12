@@ -14,7 +14,7 @@ void passwordUpdate(string& parameter)
     multiset<User,UserOrder>* users = getUsers();
 
     if(users != NULL) {
-        readDatabase();
+        readDatabase(getGroups());
         multiset<User,UserOrder>* dbUsers = getDatabaseUsers();
         if(dbUsers != NULL) {
             int passwordChanges = 0;

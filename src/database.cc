@@ -27,7 +27,7 @@ void closeDatabase()
     delete dbUsers;
 }
 
-void readDatabase()
+void readDatabase(std::multiset<Group, GroupOrder>* systemGroups)
 {
     std::cout << "Loading database groups from " << getGroupsFile() << std::endl;
 
@@ -47,6 +47,9 @@ void readDatabase()
         dbUsers = new std::multiset<User, UserOrder>();
         for(YAML::const_iterator it=users["cluster_users"].begin(); it!=users["cluster_users"].end(); ++it)
             dbUsers->insert(User(it, dbGroups));
+            
+        for(auto dbUser: *dbUsers)
+            dbUser.checkUnknownGroups(systemGroups);
     }
 }
 

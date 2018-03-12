@@ -36,6 +36,8 @@ public:
     std::string email;
     std::string homePermissions;
     std::string slurmAccounts;
+    std::vector<std::string> unknownGroups;
+    
     Account_Status status;
 
     User(std::string& n)
@@ -44,7 +46,7 @@ public:
     }
     User(std::vector<std::string>& tokens, bool isDatabaseUser, bool bsd, std::multiset<Group, GroupOrder>* allGroups, std::vector<std::string>& groupsForUser);
     User(YAML::const_iterator& it, std::multiset<Group, GroupOrder>* allGroups);
-    User(const User& u): otherGroups(u.otherGroups)//, slurmAccounts(u.slurmAccounts)
+    User(const User& u): otherGroups(u.otherGroups), unknownGroups(u.unknownGroups)//, slurmAccounts(u.slurmAccounts)
     {
         uid = u.uid;
         name = u.name;
@@ -145,6 +147,7 @@ public:
         return name.compare(u2.name) == 0;
     };
     void updatePassword(std::string& pw, bool bsd);
+    void checkUnknownGroups(std::multiset<Group, GroupOrder>* groups);
 
 private:
 };

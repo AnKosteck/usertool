@@ -113,8 +113,9 @@ User::User(YAML::const_iterator& it, std::multiset<Group, GroupOrder>* allGroups
             auto g = find(allGroups->begin(), allGroups->end(), Group(groupName));
             if(g != allGroups->end())
                 otherGroups.push_back(&(*g));
-            else
-                std::cout << "Could not find group object " << groupName << " for user " << name << std::endl;
+            else {
+                unknownGroups.push_back(groupName);
+            }
         }
     } else
         std::cout << "User " << name << " has no groups field and thus cannot be set" << std::endl;
@@ -143,6 +144,28 @@ User::User(YAML::const_iterator& it, std::multiset<Group, GroupOrder>* allGroups
 
     if(it->second["slurm_accounts"]) {
         slurmAccounts = it->second["slurm_accounts"].as<std::string>();
+    }
+}
+
+/**
+* This method is needed for database users. Since a user may be part of a system group, the
+* database does not know this group, e.g. users. Thus check for unknown groups. If a local
+* user, i.e. not a database user, does not know a group, that group does not exist!
+**/
+void User::checkUnknownGroups(std::multiset<Group, GroupOrder>* groups)
+{
+    for(std::string unknownGroup: unknownGroups) {
+        Group tmpGroup(unknownGroup);
+        
+        auto g = find(groups->begin(), groups->end(), tmpGroup);
+        if(g != groups->end()) {
+            //At this point the groups should actually be a system group, since every other group should
+            //be known to the database
+            //if (g->gid >= MIN_ID && g->gid <= MAX_ID)
+            //    std::cout << "User " << name << " knows a group from local system: " << g->name << std::endl;
+            otherGroups.push_back(&*g);
+        } else
+            std::cout << "User " << name << " has unknown other group: " << unknownGroup << std::endl;
     }
 }
 

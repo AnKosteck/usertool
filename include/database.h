@@ -11,7 +11,7 @@ std::multiset<User, UserOrder>* getDatabaseUsers();
 
 //Database operations
 void closeDatabase();
-void readDatabase();
+void readDatabase(std::multiset<Group, GroupOrder>* systemGroups);
 void writeDatabase();
 
 #endif

@@ -1,5 +1,6 @@
 #include "database.h"
 #include "string_methods.h"
+#include "system.h"
 #include "usertool.h"
 
 #include <algorithm>
@@ -8,10 +9,11 @@ using namespace std;
 
 void removeUsers(std::string& parameter)
 {
+    readSystem(parameter);
     vector<string> usersToDelete;
     split(parameter, usersToDelete, ",");
 
-    readDatabase();
+    readDatabase(getGroups());
     multiset<User, UserOrder>* dbUsers = getDatabaseUsers();
     multiset<Group, GroupOrder>* dbGroups = getDatabaseGroups();
     int max_deletions, user_deletions = 0, group_deletions = 0;
@@ -43,6 +45,7 @@ void removeUsers(std::string& parameter)
 
     writeDatabase();
     closeDatabase();
+    closeSystem();
 
     cout << "Deleted " << user_deletions << " users and " << group_deletions << " groups of max. " << max_deletions << endl;
 

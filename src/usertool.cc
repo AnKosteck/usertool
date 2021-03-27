@@ -5,8 +5,6 @@
 #include <map>
 #include <unistd.h>
 
-using namespace std;
-
 enum Mode {
     BSD2LINUX,DAEMON,FILTERSYSTEM,FLAWSEARCH,LINUX2BSD,PASSWORDUPDATE,REMOVEUSERS,SYSTEM2YAML,SYSTEMUPDATE,UNSET,UPDATEDATABASE
 };
@@ -34,7 +32,7 @@ std::string modeToString(Mode m)
     return "UNSET";
 }
 
-Mode stringToMode(string m)
+Mode stringToMode(std::string m)
 {
     auto it = modeStrings.find(m);
     if(it != modeStrings.end())
@@ -43,15 +41,33 @@ Mode stringToMode(string m)
     return UNSET;
 }
 
+//path overrides
+std::string groupsPath;
+std::string usersPath;
+std::string shadowPath;
+
+//yaml data
 std::string groupsYAMLFile;
 std::string usersYAMLFile;
 std::string workingDirectory;
 
-std::string& getGroupsFile()
+std::string& getGroupsPath()
+{
+    return groupsPath;
+}
+std::string& getUsersPath()
+{
+    return usersPath;
+}
+std::string& getShadowPath()
+{
+    return shadowPath;
+}
+std::string& getYAMLGroups()
 {
     return groupsYAMLFile;
 }
-std::string& getUsersFile()
+std::string& getYAMLUsers()
 {
     return usersYAMLFile;
 }
@@ -69,13 +85,16 @@ int main(int argc, char* argv[])
 
     int c;
     enum Mode m = UNSET;
-    string parameter("");
+    std::string parameter("");
 
     //Parse Option
-    while((c = getopt (argc, argv, "hHm:o:p:u:g:")) != -1) {
+    while((c = getopt (argc, argv, "hHm:o:p:u:U:g:G:S:")) != -1) {
         switch (c) {
         case 'g':
             groupsYAMLFile = optarg;
+            break;
+        case 'G':
+            groupsPath = optarg;
             break;
         case 'm':
             m = stringToMode(optarg);
@@ -89,6 +108,12 @@ int main(int argc, char* argv[])
         case 'u':
             usersYAMLFile = optarg;
             break;
+        case 'U':
+            usersPath = optarg;
+            break;
+        case 'S':
+            shadowPath = optarg;
+            break;
         case 'h':
         case 'H':
         default:
@@ -96,7 +121,7 @@ int main(int argc, char* argv[])
         }
     }
     if(m != UNSET)
-        cout << "Mode " << modeToString(m) <<  " with parameter: " << parameter << endl;
+        std::cout << "Mode " << modeToString(m) <<  " with parameter: " << parameter << std::endl;
     if(parameter.empty())
         m = UNSET;
 

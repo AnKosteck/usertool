@@ -29,9 +29,9 @@ void closeDatabase()
 
 void readDatabase(std::multiset<Group, GroupOrder>* systemGroups)
 {
-    std::cout << "Loading database groups from " << getGroupsFile() << std::endl;
+    std::cout << "Loading database groups from " << getYAMLGroups() << std::endl;
 
-    YAML::Node groups = YAML::LoadFile(getGroupsFile());
+    YAML::Node groups = YAML::LoadFile(getYAMLGroups());
     if(groups["cluster_groups"]) {
         assert(groups["cluster_groups"].Type() == YAML::NodeType::Map);
         dbGroups = new std::multiset<Group, GroupOrder>();
@@ -39,9 +39,9 @@ void readDatabase(std::multiset<Group, GroupOrder>* systemGroups)
             dbGroups->insert(Group(it));
     }
 
-    std::cout << "Loading database users from " << getUsersFile() << std::endl;
+    std::cout << "Loading database users from " << getYAMLUsers() << std::endl;
 
-    YAML::Node users = YAML::LoadFile(getUsersFile());
+    YAML::Node users = YAML::LoadFile(getYAMLUsers());
     if(users["cluster_users"]) {
         assert(users["cluster_users"].Type() == YAML::NodeType::Map);
         dbUsers = new std::multiset<User, UserOrder>();
@@ -52,7 +52,7 @@ void readDatabase(std::multiset<Group, GroupOrder>* systemGroups)
 
 void writeDatabase()
 {
-    std::ofstream groups(getGroupsFile());
+    std::ofstream groups(getYAMLGroups());
     YAML::Emitter g_out;
     g_out << YAML::BeginMap;
     g_out << YAML::Key << "cluster_groups";
@@ -69,7 +69,7 @@ void writeDatabase()
 
     groups.close();
 
-    std::ofstream users(getUsersFile());
+    std::ofstream users(getYAMLUsers());
     YAML::Emitter u_out;
     u_out << YAML::BeginMap;
     u_out << YAML::Key << "cluster_users";

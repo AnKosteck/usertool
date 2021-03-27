@@ -65,7 +65,7 @@ void daemon(std::string& parameter)
     ******************/
 
     cout << "Child is starting!" << endl;
-    cout << "Child knows the files " << getUsersFile() << " and " << getGroupsFile() << endl;
+    cout << "Child knows the files " << getYAMLUsers() << " and " << getYAMLGroups() << endl;
 
     /* Change the file mode mask */
     umask(0);

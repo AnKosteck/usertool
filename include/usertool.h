@@ -25,6 +25,7 @@ inline void printUsage()
     std::cout << "./usertool -m <MODE> -p <PARAMETER> [-o <OUTPUT_DIR>] [-u <PATH_TO_USERSYAML_FILE> -g <PATH_TO_GROUPSYAML_FILE>]" << std::endl
               << "-h or -H displays this help" << std::endl
               << "-o specifies the destination path for any additional output the usertool generates (default: current working directory)" << std::endl
+              << "-G (groups) -U (users) and -S (shadow) allow for path override, use -U for master.passwd files and always -U and -S together" << std::endl
               << "Modes for '-m':" << std::endl
               << "\tBSD2LINUX: Create shadow,group,passwd,gshadow from master.passwd and group files" << std::endl
               << "\tFILTERSYSTEM: Extract system users/groups into local (current working dir) group and (master.)passwd files" << std::endl
@@ -47,8 +48,12 @@ inline void printUsage()
               << "\tUPDATEDATABASE: System type 'b' (BSD) or 'l' (Linux)" << std::endl;
 }
 
-std::string& getGroupsFile();
-std::string& getUsersFile();
+std::string& getGroupsPath();
+std::string& getUsersPath();
+std::string& getShadowPath();
+
+std::string& getYAMLGroups();
+std::string& getYAMLUsers();
 std::string& getWorkingDirectory();
 
 #endif

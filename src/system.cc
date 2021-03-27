@@ -46,14 +46,31 @@ void readSystem(std::string& parameter)
     char systemType = convertStringToChar(parameter);
 
     std::map<std::string, std::vector<std::string>> groupsPerUser;
+    
+    std::string groupsPath = getGroupsPath();
+    std::string shadowPath = getShadowPath();
+    std::string usersPath = getUsersPath();
+    
     if(systemType == 'b' || systemType == 'l') {
         if(systemType == 'b') {
             bsd = true;
-            readGroupFile("/etc/group","duplicates", groupsPerUser);
-            readUsersFile("/etc/master.passwd",NULL,"duplicates",groups, groupsPerUser);
+            if (!groupsPath.empty())
+                readGroupFile(groupsPath.c_str(),"duplicates", groupsPerUser);
+            else
+                readGroupFile("/etc/group","duplicates", groupsPerUser);
+            if (!usersPath.empty())
+                readUsersFile(usersPath.c_str(),NULL,"duplicates",groups, groupsPerUser);
+            else
+                readUsersFile("/etc/master.passwd",NULL,"duplicates",groups, groupsPerUser);
         } else {
-            readGroupFile("/etc/group","duplicates", groupsPerUser);
-            readUsersFile("/etc/passwd","/etc/shadow","duplicates",groups, groupsPerUser);
+            if (!groupsPath.empty())
+                readGroupFile(groupsPath.c_str(),"duplicates", groupsPerUser);
+            else
+                readGroupFile("/etc/group","duplicates", groupsPerUser);
+            if (!usersPath.empty() && !shadowPath.empty())
+                readUsersFile(usersPath.c_str(),shadowPath.c_str(),"duplicates",groups, groupsPerUser);
+            else
+                readUsersFile("/etc/passwd","/etc/shadow","duplicates",groups, groupsPerUser);
         }
 
         if(groups == NULL)

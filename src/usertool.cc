@@ -74,11 +74,6 @@ int main(int argc, char* argv[])
     //Parse Option
     while((c = getopt (argc, argv, "hHm:o:p:u:g:")) != -1) {
         switch (c) {
-//        case 'd':
-//        case 'D':
-//            m = DAEMON;
-//            parameter = optarg;
-//            break;
         case 'g':
             groupsYAMLFile = optarg;
             break;

@@ -27,7 +27,7 @@ inline void printUsage()
               << "-o specifies the destination path for any additional output the usertool generates (default: current working directory)" << std::endl
               << "Modes for '-m':" << std::endl
               << "\tBSD2LINUX: Create shadow,group,passwd,gshadow from master.passwd and group files" << std::endl
-              << "\tFILTERSYSTEM: Extract system users/groups into locol (current working dir) group and (master.)passwd files" << std::endl
+              << "\tFILTERSYSTEM: Extract system users/groups into local (current working dir) group and (master.)passwd files" << std::endl
               << "\tFLAWSEARCH: Search for mismatches and problems in system's known users/groups and YAML files." << std::endl
               << "\tLINUX2BSD: Create master.passwd and group from shadow,group,passwd" << std::endl
               << "\tPASSWORDUPDATE: Updates users YAML file with new passwords from system" << std::endl

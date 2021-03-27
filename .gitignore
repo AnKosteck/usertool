@@ -34,7 +34,10 @@
 # Editor copies
 **/*~
 
-# cmake stuff
+# cmake and meson stuff
 **/build
-
 **/builddir
+
+# kdevelop stuff
+usertool.kdev4
+.kdev4
